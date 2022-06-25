@@ -12,7 +12,7 @@ go build -o bin/main .
 ./bin/main
 
 curl localhost:8080
-curl "localhost:8080?name=nick
+curl "localhost:8080?name=nick"
 ```
 
 Set a default name:
