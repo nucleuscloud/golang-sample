@@ -2,10 +2,9 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"os"
-
-	log "github.com/sirupsen/logrus"
 )
 
 func main() {
@@ -14,18 +13,30 @@ func main() {
 		port = "8080"
 	}
 
-	//get port from environment
 	http.Handle("/", loggingMiddleware(http.HandlerFunc(handler)))
-	http.ListenAndServe("0.0.0.0:"+port, nil)
+	log.Printf("Server running at http://0.0.0.0:%s", port)
+	err := http.ListenAndServe("0.0.0.0:"+port, nil)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func handler(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprintf(w, "Hello World")
+	name := os.Getenv("DEFAULT_NAME")
+	if name == "" {
+		name = "Anonymous"
+	}
+	queryValues := req.URL.Query()
+	queryName := queryValues.Get("name")
+	if queryName != "" {
+		name = queryName
+	}
+	fmt.Fprintf(w, "Hello %s", name)
 }
 
 func loggingMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
-		log.Infof("uri: %s", req.URL)
+		log.Printf("uri: %s", req.URL)
 		next.ServeHTTP(w, req)
 	})
 }
