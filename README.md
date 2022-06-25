@@ -17,7 +17,7 @@ curl "localhost:8080?name=nick"
 
 Set a default name:
 ```sh
-DEFAULT_NAME=Everybody
+DEFAULT_NAME=Everybody ./bin/main
 
 curl localhost:8080
 ```
