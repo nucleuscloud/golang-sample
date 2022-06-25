@@ -4,7 +4,7 @@ Used to showcase Nucleus Cloud support for Golang.
 
 ## Building
 ```sh
-make build
+go build -o bin/main .
 ```
 
 ## Running
