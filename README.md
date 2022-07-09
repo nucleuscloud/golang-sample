@@ -21,3 +21,17 @@ DEFAULT_NAME=Everybody ./bin/main
 
 curl localhost:8080
 ```
+
+## Build and Run Docker
+```
+docker build . -t <tag>
+docker run --rm -it -p 127.0.0.1:8080:8080/tcp <tag>
+
+curl localhost:8080
+```
+
+
+## Building for multi-platform
+```
+docker buildx build --platform=linux/arm64,linux/amd64 . -f ./Dockerfile -t ghcr.io/nucleuscloud/golang-sample:latest
+```
